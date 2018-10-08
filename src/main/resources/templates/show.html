@@ -7,22 +7,40 @@
 </head>
 
 <body>
-<section>
+<section style="width: 60%; margin-left: 10em">
 
     <h3>Questionnaire</h3>
 
     <!-- IF questionnaire available-->
     <div th:if="${questionnaire}">
-        <strong th:text="${questionnaire.title}">sample title</strong>
-        <br/>
-        <span th:text="${questionnaire.description}">sample description</span>
+        <form th:object="${questionnaire}">
+            <fieldset disabled>
+                <input type="hidden" name="_method" value="PUT"/>
+                <div class="form-group row">
+                    <label class="col-md-2" for="title">Title:</label>
+                    <div class="col-md-10">
+                        <input type="text" id="title" class="form-control" th:field="*{title}"
+                               th:errorclass="fieldError"
+                               autofocus="true"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-2" for="description">Description:</label>
+                    <div class="col-md-10">
+                        <input type="text" id="description" class="form-control" th:field="*{description}"
+                               th:errorclass="fieldError"/>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="form-group row">
+                <a class="btn btn-default" th:href="@{/questionnaires}">Close</a>
+            </div>
+        </form>
     </div>
     <!-- ELSE -->
     <div th:unless="${questionnaire}">
         <span>No questionnaire found</span>
     </div>
-
 </section>
 </body>
-
 </html>
