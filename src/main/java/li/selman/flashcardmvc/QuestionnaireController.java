@@ -1,6 +1,7 @@
 package li.selman.flashcardmvc;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,18 +27,10 @@ public class QuestionnaireController {
     }
 
     @GetMapping
-    public void findAll(HttpServletResponse response, HttpServletRequest request) throws IOException {
+    public String findAll(Model model) {
         List<Questionnaire> questionnaires = repository.findAll();
-        PrintWriter writer = response.getWriter();
-        writer.append("<html><head><title>Example</title></head><body>");
-        writer.append("<h3>Fragebögen</h3>");
-        for (Questionnaire questionnaire : questionnaires) {
-            String url = request.getContextPath() + request.getServletPath();
-            url = url + "/" + questionnaire.id;
-            writer.append("<p><a href='").append(response.encodeURL(url)).append("'>").append(questionnaire.getTitle()).append("</a></p>");
-        }
-        writer.append("</body></html>");
-
+        model.addAttribute("questionnaires", questionnaires);
+        return "list";
     }
 
     @GetMapping("/{id}")
