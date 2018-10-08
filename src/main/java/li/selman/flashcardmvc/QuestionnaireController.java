@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 import java.util.Optional;
@@ -47,8 +48,12 @@ public class QuestionnaireController {
     }
 
     @PostMapping
-    public ModelAndView create(@ModelAttribute QuestionnaireDto questionnaireIn) {
+    public RedirectView create(@ModelAttribute QuestionnaireDto questionnaireIn) {
         Questionnaire savedQuestionnaire = repository.save(questionnaireIn.toModel());
-        return new ModelAndView("show", "questionnaire", savedQuestionnaire);
+
+        RedirectView rv = new RedirectView("/questionnaires/{id}", true);
+        rv.addStaticAttribute("id", savedQuestionnaire.id);
+
+        return rv;
     }
 }
