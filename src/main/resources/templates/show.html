@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: maincontent(~{::section})}">-->
+
+<head>
+    <title>Questionnaire</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
+</head>
+
+<body>
+<section>
+
+    <h3>Questionnaire</h3>
+
+    <!-- IF questionnaire available-->
+    <div th:if="${questionnaire}">
+        <strong th:text="${questionnaire.title}">sample title</strong>
+        <br/>
+        <span th:text="${questionnaire.description}">sample description</span>
+    </div>
+    <!-- ELSE -->
+    <div th:unless="${questionnaire}">
+        <span>No questionnaire found</span>
+    </div>
+
+</section>
+</body>
+
+</html>

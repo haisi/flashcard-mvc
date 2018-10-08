@@ -6,10 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,20 +30,14 @@ public class QuestionnaireController {
     }
 
     @GetMapping("/{id}")
-    public void findById(@PathVariable String id, HttpServletResponse response, HttpServletRequest request) throws IOException {
+    public String findById(@PathVariable String id, Model model) {
         Optional<Questionnaire> dbResponse = repository.findById(id);
-        PrintWriter writer = response.getWriter();
-        writer.append("<html><head><title>Example</title></head><body>");
-        writer.append("<h3>Questionnaire</h3>");
 
         if (dbResponse.isPresent()) {
             Questionnaire questionnaire = dbResponse.get();
-            writer.append("<strong>").append(questionnaire.getTitle()).append("</strong></br>");
-            writer.append("<span>").append(questionnaire.getDescription()).append("</span></p>");
-        } else {
-            writer.append("no questionnaire found");
+            model.addAttribute("questionnaire", questionnaire);
         }
 
-        writer.append("</body></html>");
+        return "show";
     }
 }
