@@ -2,11 +2,11 @@ package li.selman.flashcardmvc;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +27,7 @@ public class QuestionnaireController {
     public String findAll(Model model) {
         List<Questionnaire> questionnaires = repository.findAll();
         model.addAttribute("questionnaires", questionnaires);
-        return "list";
+        return "questionnaires/list";
     }
 
     @GetMapping("/{id}")
@@ -39,21 +39,18 @@ public class QuestionnaireController {
             model.addAttribute("questionnaire", questionnaire);
         }
 
-        return "show";
+        return "questionnaires/show";
     }
 
-    @GetMapping("/create")
-    public ModelAndView createView() {
-        return new ModelAndView("create", "questionnaire", new QuestionnaireDto());
+    @GetMapping(params = "form")
+    public String createView(Model model) {
+        model.addAttribute("questionnaire", new QuestionnaireDto());
+        return "questionnaires/create";
     }
 
     @PostMapping
-    public RedirectView create(@ModelAttribute QuestionnaireDto questionnaireIn) {
+    public String create(QuestionnaireDto questionnaireIn) {
         Questionnaire savedQuestionnaire = repository.save(questionnaireIn.toModel());
-
-        RedirectView rv = new RedirectView("/questionnaires/{id}", true);
-        rv.addStaticAttribute("id", savedQuestionnaire.id);
-
-        return rv;
+        return String.format("redirect:/questionnaires/%s", savedQuestionnaire.id);
     }
 }
