@@ -1,12 +1,17 @@
 package li.selman.flashcardmvc;
 
+import javax.validation.constraints.Size;
+
 /**
  * @author Hasan Kara
  */
 public class QuestionnaireDto {
 
     public String id;
+    @Size(min = 2, max = 30)
     private String title;
+
+    @Size(min = 10, max = 50)
     private String description;
 
     public Questionnaire toModel() {
