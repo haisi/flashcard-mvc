@@ -18,9 +18,9 @@ public class FlashcardMvcApplication {
         return args -> {
             repository.deleteAll();
 
-            repository.save(Questionnaire.of("Test 1", "Desc 1"));
-            repository.save(Questionnaire.of("Test 2", "Desc 2"));
-            repository.save(Questionnaire.of("Test 3", "Desc 3"));
+            repository.save(Questionnaire.of("Test 1", "Desc 1 abcdefgh"));
+            repository.save(Questionnaire.of("Test 2", "Desc 2 abcdefgh"));
+            repository.save(Questionnaire.of("Test 3", "Desc 3 abcdefgh"));
 
             repository.findAll().forEach(System.out::println);
         };
