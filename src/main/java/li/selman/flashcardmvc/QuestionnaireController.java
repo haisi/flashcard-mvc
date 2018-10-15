@@ -4,7 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -49,8 +48,13 @@ public class QuestionnaireController {
     }
 
     @PostMapping
-    public String create(QuestionnaireDto questionnaireIn) {
-        Questionnaire savedQuestionnaire = repository.save(questionnaireIn.toModel());
+    public String create(@Valid Questionnaire questionnaire, BindingResult result, Model model) {
+
+        if (result.hasErrors()) {
+            return "questionnaires/create";
+        }
+
+        Questionnaire savedQuestionnaire = repository.save(questionnaire);
         return String.format("redirect:/questionnaires/%s", savedQuestionnaire.id);
     }
 }
